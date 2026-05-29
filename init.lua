@@ -30,10 +30,9 @@ end
 
 ---@type LazySpec
 return {
-  -- Configure ESLint LSP when JS/TS files are opened
+  -- Configure ESLint LSP when Antfu config is detected
   {
     "AstroNvim/astrolsp",
-    optional = true,
     ---@type AstroLSPOpts
     opts = function(_, opts)
       -- Only configure ESLint if Antfu config exists
@@ -95,15 +94,6 @@ return {
       }
       
       return opts
-    end,
-  },
-  -- Ensure eslint-lsp is installed via Mason (always install, config is conditional)
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "eslint-lsp" })
     end,
   },
 }

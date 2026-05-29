@@ -2,22 +2,22 @@
 
 **Requirements:**
 
-- `eslint` v9.5.0+ must be installed in your project
-- `@antfu/eslint-config` must be installed in your project
+- `eslint` v9.5.0+ installed in your project
+- `@antfu/eslint-config` installed in your project
 - `@stylistic/eslint-plugin` (if using stylistic options)
 - `eslint.config.mjs` (or `.js`, `.ts`, etc.) in your project root that imports `@antfu/eslint-config`
+- `eslint-lsp` installed via Mason (see installation)
 
 This plugin provides ESLint integration using [@antfu/eslint-config](https://github.com/antfu/eslint-config) with auto-fix on save:
 
-- **Smart lazy-loading**: Only activates when an Antfu ESLint config is detected in your project
-- Installs `eslint-lsp` via Mason
+- **Smart detection**: Only activates when an Antfu ESLint config is detected in your project
 - Configures ESLint for JavaScript, TypeScript, React, Vue, and 20+ file types
 - Enables `codeActionOnSave` for automatic fixing on save
 - Applies Antfu's recommended `rulesCustomizations` to silence stylistic warnings in IDE while still auto-fixing them
 
 ## Installation
 
-### Using Lazy.nvim (AstroNvim)
+### 1. Install the plugin
 
 Add to your `lua/community.lua` or `lua/plugins/antfu-eslint.lua`:
 
@@ -27,21 +27,30 @@ return {
 }
 ```
 
-### Manual Installation
+### 2. Install eslint-lsp
 
-Clone into your AstroNvim config:
-
-```bash
-cd ~/.config/nvim/lua
-git clone https://github.com/MatyiFKBT/antfu-eslint.nvim antfu-eslint
-```
-
-Then import:
+Add to your Mason config (`lua/plugins/mason.lua`):
 
 ```lua
 return {
-  { import = "antfu-eslint" },
+  "WhoIsSethDaniel/mason-tool-installer.nvim",
+  opts = {
+    ensure_installed = {
+      "eslint-lsp", -- Required for antfu-eslint.nvim
+      -- ... your other tools
+    },
+  },
 }
+```
+
+Then restart Neovim and run:
+```vim
+:MasonToolsInstall
+```
+
+Or install manually:
+```vim
+:MasonInstall eslint-lsp
 ```
 
 ## Example Project Setup
@@ -72,13 +81,12 @@ The plugin automatically detects if you're using Antfu's ESLint config by:
 
 1. Checking for ESLint flat config files (`eslint.config.{js,mjs,cjs,ts,mts,cts}`) in your project root
 2. Reading the config file to verify it imports `@antfu/eslint-config`
-3. Only applying ESLint LSP configuration if the check passes
+3. Only applying ESLint LSP configuration if both conditions are met
 
-**Key behavior:**
-- `eslint-lsp` is always installed via Mason (so it's available when needed)
-- ESLint configuration is only applied in projects with Antfu's config
-- Safe to install globally - won't interfere with non-Antfu projects
-- Detection happens when AstroLSP initializes (supports `:cd` into projects)
+**Benefits:**
+- Safe to install globally in your AstroNvim config
+- Won't interfere with non-Antfu projects
+- Zero configuration needed once `eslint-lsp` is installed
 
 ## Configuration
 
