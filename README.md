@@ -70,11 +70,15 @@ export default antfu({
 
 The plugin automatically detects if you're using Antfu's ESLint config by:
 
-1. Searching for ESLint flat config files (`eslint.config.{js,mjs,cjs,ts,mts,cts}`)
-2. Checking if the config imports `@antfu/eslint-config`
-3. Only loading the ESLint LSP configuration if both conditions are met
+1. Checking for ESLint flat config files (`eslint.config.{js,mjs,cjs,ts,mts,cts}`) in your project root
+2. Reading the config file to verify it imports `@antfu/eslint-config`
+3. Only applying ESLint LSP configuration if the check passes
 
-This means you can safely install this plugin globally in your AstroNvim config, and it will only activate in projects that use Antfu's ESLint config!
+**Key behavior:**
+- `eslint-lsp` is always installed via Mason (so it's available when needed)
+- ESLint configuration is only applied in projects with Antfu's config
+- Safe to install globally - won't interfere with non-Antfu projects
+- Detection happens when AstroLSP initializes (supports `:cd` into projects)
 
 ## Configuration
 
