@@ -5,10 +5,11 @@
 - `eslint` v9.5.0+ must be installed in your project
 - `@antfu/eslint-config` must be installed in your project
 - `@stylistic/eslint-plugin` (if using stylistic options)
-- `eslint.config.mjs` in your project root
+- `eslint.config.mjs` (or `.js`, `.ts`, etc.) in your project root that imports `@antfu/eslint-config`
 
 This plugin provides ESLint integration using [@antfu/eslint-config](https://github.com/antfu/eslint-config) with auto-fix on save:
 
+- **Smart lazy-loading**: Only activates when an Antfu ESLint config is detected in your project
 - Installs `eslint-lsp` via Mason
 - Configures ESLint for JavaScript, TypeScript, React, Vue, and 20+ file types
 - Enables `codeActionOnSave` for automatic fixing on save
@@ -64,6 +65,16 @@ export default antfu({
   },
 })
 ```
+
+## How It Works
+
+The plugin automatically detects if you're using Antfu's ESLint config by:
+
+1. Searching for ESLint flat config files (`eslint.config.{js,mjs,cjs,ts,mts,cts}`)
+2. Checking if the config imports `@antfu/eslint-config`
+3. Only loading the ESLint LSP configuration if both conditions are met
+
+This means you can safely install this plugin globally in your AstroNvim config, and it will only activate in projects that use Antfu's ESLint config!
 
 ## Configuration
 
